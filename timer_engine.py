@@ -1,4 +1,5 @@
 import time
+from typing import List, Tuple
 
 class TimerEngine:
     """Gestiona la lógica de un cronómetro secuencial de alta precisión.
@@ -12,7 +13,7 @@ class TimerEngine:
         """Inicializa una nueva instancia de TimerEngine."""
         self.elapsed_time: float = 0.0
         self.is_running: bool = False
-        self.laps: list[float] = []
+        self.laps: List[Tuple[str, float]] = []  # Cambia a lista de tuplas (nombre, tiempo)
         self._start_time: float | None = None
 
     def start(self) -> None:
@@ -35,15 +36,14 @@ class TimerEngine:
             self.elapsed_time += time.perf_counter() - self._start_time
             self.is_running = False
 
-    def record_lap(self) -> None:
-        """Registra una vuelta (lap).
+    def record_lap(self, name: str) -> None:
+        """Registra una vuelta (lap) con nombre.
 
-        Si el cronómetro está en marcha, añade el tiempo transcurrido actual
-        a la lista de vueltas.
+        Si el cronómetro está en marcha, añade el nombre y el tiempo actual a la lista de vueltas.
         """
         if self.is_running:
             lap_time = self.get_current_time()
-            self.laps.append(lap_time)
+            self.laps.append((name, lap_time))
 
     def reset(self) -> None:
         """Resetea el cronómetro a su estado inicial.
