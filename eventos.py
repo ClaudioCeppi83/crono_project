@@ -41,3 +41,7 @@ class EventManager:
 
     def advance_lap(self):
         self.next_lap_index += 1
+
+    def reset(self):
+        """Reinicia el estado del gestor de eventos."""
+        self.next_lap_index = 0
