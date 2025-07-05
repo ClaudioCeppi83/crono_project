@@ -98,7 +98,3 @@ y este proyecto se adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.
 - **Comportamiento del Botón 'Vuelta'**: 
   - En el modo 'Máximo de Vueltas', el botón 'Vuelta' cambia a 'Stop' cuando se alcanza el número máximo de vueltas.
   - En el modo 'Nombres Predefinidos', el botón 'Vuelta' cambia a 'Stop' después de registrar la última vuelta con nombre.
-- **Lógica de Reinicio**: Se ha mejorado la función de reinicio para restaurar completamente el estado de la aplicación, incluyendo el gestor de eventos.
-
-### Fixed
-- El botón de inicio/pausa ahora se reactiva correctamente después de un reinicio.
