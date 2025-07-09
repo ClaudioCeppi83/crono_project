@@ -98,15 +98,20 @@ venv.bak/
 
 # mypy
 .mypy_cache/
-.dmypy.json
-dmypy.json
 
-# Pyre type checker
-.pyre/
+# VS Code
+.vscode/
 
-# Session data
-sessions.json
+# JetBrains
+.idea/
 
-#extras
-fase1_MVP_cron_sec_app.md
-fase2_cron_sec_app.md
+# SQLite
+*.sqlite3
+
+# Logs
+logs/
+*.log
+
+# OS-generated files
+.DS_Store
+Thumbs.db

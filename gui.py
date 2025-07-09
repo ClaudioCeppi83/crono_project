@@ -297,44 +297,48 @@ class StopwatchApp:
         history_window.configure(bg=self.CARD_COLOR)
 
         sessions = self.storage.obtener_sesiones()
-        text_area = tk.Text(history_window, bg=self.BG_COLOR, fg=self.FG_COLOR, font=("Segoe UI Variable", 12), insertbackground=self.FG_COLOR)
-        text_area.pack(expand=True, fill=tk.BOTH, padx=20, pady=20)
+        
+        # Crear un frame principal y un canvas para el scroll
+        main_frame = tk.Frame(history_window, bg=self.CARD_COLOR)
+        main_frame.pack(fill=tk.BOTH, expand=True)
 
-        # Configurar etiquetas para diferentes estilos de texto
-        text_area.tag_configure("session_name", font=("Segoe UI Variable", 16, "bold"), spacing3=10)
-        text_area.tag_configure("header", font=("Segoe UI Variable", 12, "bold"), spacing1=5)
-        text_area.tag_configure("lap_time", font=("Segoe UI Variable", 12), lmargin1=30, lmargin2=30)
-        text_area.tag_configure("separator", spacing1=15, spacing3=15)
+        canvas = tk.Canvas(main_frame, bg=self.CARD_COLOR, highlightthickness=0)
+        canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+
+        scrollbar = tk.Scrollbar(main_frame, orient=tk.VERTICAL, command=canvas.yview)
+        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+
+        canvas.configure(yscrollcommand=scrollbar.set)
+
+        scrollable_frame = tk.Frame(canvas, bg=self.CARD_COLOR)
+        canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
+
+        def on_frame_configure(event):
+            canvas.configure(scrollregion=canvas.bbox("all"))
+
+        scrollable_frame.bind("<Configure>", on_frame_configure)
 
         if not sessions:
-            text_area.insert(tk.END, "No hay sesiones guardadas.", "header")
+            tk.Label(scrollable_frame, text="No hay sesiones guardadas.", bg=self.CARD_COLOR, fg=self.FG_COLOR, font=self.laps_font).pack(pady=20)
         else:
             for session in sessions:
-                # Nombre de la sesión destacado
-                session_name = session.get('session_name', 'Sin nombre')
-                text_area.insert(tk.END, f"📌 {session_name}\n", "session_name")
+                self.create_session_card(scrollable_frame, session)
 
-                # Información de la sesión
-                text_area.insert(tk.END, f"Modo: {session.get('mode', 'N/A')}\n", "header")
-                text_area.insert(tk.END, f"Inicio: {session.get('start_time')}\n")
-                text_area.insert(tk.END, f"Fin: {session.get('end_time')}\n\n")
+    def create_session_card(self, parent, session):
+        card = tk.Frame(parent, bg=self.BG_COLOR, relief="raised", borderwidth=1, padx=10, pady=10)
+        card.pack(fill="x", padx=20, pady=10)
 
-                # Tiempos de vueltas
-                text_area.insert(tk.END, "⏱️ Vueltas registradas:\n", "header")
-                laps = session.get('laps', [])
-                if laps:
-                    for i, lap in enumerate(laps, 1):
-                        if isinstance(lap, dict):
-                            lap_name = lap.get('name', f'Vuelta {i}')
-                            lap_time = lap.get('time', '00:00:00.00')
-                            text_area.insert(tk.END, f"   {lap_name}: {lap_time}\n", "lap_time")
-                        else:
-                            text_area.insert(tk.END, f"   Vuelta {i}: {lap}\n", "lap_time")
-                else:
-                    text_area.insert(tk.END, "   No se registraron vueltas\n", "lap_time")
+        name = session.get("session_name", "Sin nombre")
+        start_time_str = session.get("start_time", "").replace("T", " ").split(".")[0]
+        mode = session.get("mode", "N/A")
+        laps = session.get("laps", [])
 
-                # Separador entre sesiones
-                text_area.insert(tk.END, "\n" + "─" * 50 + "\n\n", "separator")
+        tk.Label(card, text=name, font=self.laps_header_font, fg=self.ACCENT_COLOR, bg=self.BG_COLOR).pack(anchor="w")
+        tk.Label(card, text=f"Inicio: {start_time_str} | Modo: {mode}", font=self.laps_font, fg=self.FG_COLOR, bg=self.BG_COLOR).pack(anchor="w")
 
-        text_area.config(state=tk.DISABLED)
-        
+        if laps:
+            laps_frame = tk.Frame(card, bg=self.BG_COLOR)
+            laps_frame.pack(fill="x", pady=5)
+            for i, lap in enumerate(laps):
+                lap_info = f"{i+1}. {lap.get('name', '')}: {lap.get('time', '')}"
+                tk.Label(laps_frame, text=lap_info, font=self.laps_font, fg=self.FG_COLOR, bg=self.BG_COLOR).pack(anchor="w")
