@@ -22,22 +22,15 @@ class EventManager:
         self.next_lap_index = 0
 
     def get_next_lap_name(self) -> str:
-        if self.mode == EventMode.PREDEFINED and self.lap_names:
-            if self.next_lap_index < len(self.lap_names):
-                name = self.lap_names[self.next_lap_index]
-            else:
-                name = f"Lap {self.next_lap_index + 1}"
-        elif self.mode == EventMode.MAXIMUM:
-            name = f"Lap {self.next_lap_index + 1}"
-        else:
-            name = f"Lap {self.next_lap_index + 1}"
-        return name
+        if self.mode == EventMode.PREDEFINED and self.next_lap_index < len(self.lap_names):
+            return self.lap_names[self.next_lap_index]
+        return f"Lap {self.next_lap_index + 1}"
 
     def can_record_lap(self) -> bool:
-        if self.mode == EventMode.PREDEFINED and self.lap_names:
+        if self.mode == EventMode.PREDEFINED:
             return self.next_lap_index < len(self.lap_names)
-        elif self.mode == EventMode.MAXIMUM and self.max_laps is not None:
-            return self.next_lap_index < self.max_laps
+        if self.mode == EventMode.MAXIMUM:
+            return self.max_laps is None or self.next_lap_index < self.max_laps
         return True
 
     def record_lap(self, lap_time: str):

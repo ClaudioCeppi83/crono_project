@@ -192,12 +192,11 @@ class StopwatchApp:
             messagebox.showwarning("Límite de vueltas", "Se ha alcanzado el número máximo de vueltas.")
             return
 
-        current_time = self.engine.get_current_time()
-        time_str, ms_str = self._format_time(current_time)
+        lap_time_float = self.engine.get_current_time()
+        time_str, ms_str = self._format_time(lap_time_float)
         lap_time_str = f"{time_str}.{ms_str}"
 
         self.event_manager.record_lap(lap_time_str)
-        
         lap_name, lap_time = self.event_manager.get_laps()[-1]
         lap_info = f"{lap_name}: {lap_time}"
         self.laps_listbox.insert(0, f"  {lap_info}")

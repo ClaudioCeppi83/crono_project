@@ -16,8 +16,11 @@ class StorageService:
     def obtener_sesiones(self) -> List[Dict[str, Any]]:
         if not os.path.exists(self.file_path):
             return []
-        with open(self.file_path, "r", encoding="utf-8") as f:
-            return json.load(f)
+        try:
+            with open(self.file_path, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except json.JSONDecodeError:
+            return []
 
     def eliminar_sesion(self, sesion_id: str):
         sesiones = self.obtener_sesiones()

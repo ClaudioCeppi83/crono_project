@@ -1,147 +1,59 @@
 [
   {
-    "id": "e89e2ae6-4dcb-4ec3-ad5c-45e3aeeba818",
-    "nombreEvento": "Sesión 2025-07-05 16:18:16",
-    "fechaInicio": "2025-07-05T16:18:16.221289",
-    "duracionTotal": 0.0,
-    "modoEvento": "INFINITE",
-    "registros": []
-  },
-  {
-    "id": "b1f8cc41-feb1-4c1f-9052-2452f3c6cc77",
-    "nombreEvento": "Sesión 2025-07-05 16:18:27",
-    "fechaInicio": "2025-07-05T16:18:27.459524",
-    "duracionTotal": 3.4032861000000594,
-    "modoEvento": "INFINITE",
-    "registros": [
+    "session_id": "fb0a754d-5ed7-477b-8b82-8913086e4676",
+    "session_name": "try",
+    "start_time": "2025-07-09T16:43:14.376347",
+    "end_time": "2025-07-09T16:43:24.117561",
+    "mode": "PREDEFINED",
+    "laps": [
       {
-        "nombreRegistro": "Lap 6",
-        "tiempoRegistrado": 0.48041120000004867
+        "name": "dgfd 4",
+        "time": "00:00:00.57"
       },
       {
-        "nombreRegistro": "Lap 7",
-        "tiempoRegistrado": 0.6869576999999936
+        "name": "hdfbx 6",
+        "time": "00:00:01.21"
       },
       {
-        "nombreRegistro": "Lap 8",
-        "tiempoRegistrado": 1.4533422000000655
-      },
-      {
-        "nombreRegistro": "Lap 9",
-        "tiempoRegistrado": 1.9914871000000858
-      },
-      {
-        "nombreRegistro": "Lap 10",
-        "tiempoRegistrado": 2.2073103000000174
-      },
-      {
-        "nombreRegistro": "Lap 11",
-        "tiempoRegistrado": 2.5859992000000602
+        "name": "sdvsd 2",
+        "time": "00:00:02.03"
       }
     ]
   },
   {
-    "id": "7f43b730-bcb8-4063-9223-459a3c01c039",
-    "nombreEvento": "tiempo tren",
-    "fechaInicio": "2025-07-05T16:19:58.666997",
-    "duracionTotal": 6.011846600000013,
-    "modoEvento": "PREDEFINED",
-    "registros": [
+    "session_id": "8787b5bd-04b7-4f41-991e-ea526ff731eb",
+    "session_name": "Session 2025-07-09 16:43:36",
+    "start_time": "2025-07-09T16:43:28.680728",
+    "end_time": "2025-07-09T16:43:36.803173",
+    "mode": "INFINITE",
+    "laps": [
       {
-        "nombreRegistro": "cierra puerta",
-        "tiempoRegistrado": 0.9989836000000878
+        "name": "Lap 1",
+        "time": "00:00:00.74"
       },
       {
-        "nombreRegistro": "avanza el tren",
-        "tiempoRegistrado": 2.9111250000000837
+        "name": "Lap 2",
+        "time": "00:00:01.05"
       },
       {
-        "nombreRegistro": "abre puerta",
-        "tiempoRegistrado": 4.455302000000074
-      }
-    ]
-  },
-  {
-    "id": "c8996bc7-4629-4960-ab52-d554d2f5363e",
-    "nombreEvento": "Sesión 2025-07-05 16:20:03",
-    "fechaInicio": "2025-07-05T16:20:03.022183",
-    "duracionTotal": 6.011846600000013,
-    "modoEvento": "PREDEFINED",
-    "registros": [
-      {
-        "nombreRegistro": "cierra puerta",
-        "tiempoRegistrado": 0.9989836000000878
+        "name": "Lap 3",
+        "time": "00:00:01.43"
       },
       {
-        "nombreRegistro": "avanza el tren",
-        "tiempoRegistrado": 2.9111250000000837
+        "name": "Lap 4",
+        "time": "00:00:01.80"
       },
       {
-        "nombreRegistro": "abre puerta",
-        "tiempoRegistrado": 4.455302000000074
-      }
-    ]
-  },
-  {
-    "id": "50570575-2dd9-42d5-a8fc-25ee3a69d033",
-    "nombreEvento": "Sesión 2025-07-05 16:20:27",
-    "fechaInicio": "2025-07-05T16:20:27.766813",
-    "duracionTotal": 6.011846600000013,
-    "modoEvento": "PREDEFINED",
-    "registros": [
-      {
-        "nombreRegistro": "cierra puerta",
-        "tiempoRegistrado": 0.9989836000000878
+        "name": "Lap 5",
+        "time": "00:00:02.11"
       },
       {
-        "nombreRegistro": "avanza el tren",
-        "tiempoRegistrado": 2.9111250000000837
+        "name": "Lap 6",
+        "time": "00:00:02.44"
       },
       {
-        "nombreRegistro": "abre puerta",
-        "tiempoRegistrado": 4.455302000000074
-      }
-    ]
-  },
-  {
-    "id": "85ef6d2b-c873-4071-9f51-fdc6d1fe22c7",
-    "nombreEvento": "testeo",
-    "fechaInicio": "2025-07-05T16:23:20.502345",
-    "duracionTotal": 4.6367124999999305,
-    "modoEvento": "PREDEFINED",
-    "registros": [
-      {
-        "nombreRegistro": "prueba 1",
-        "tiempoRegistrado": 1.2720088999999462
-      },
-      {
-        "nombreRegistro": "prueba 2",
-        "tiempoRegistrado": 2.7281829000000926
-      },
-      {
-        "nombreRegistro": "prueba 3",
-        "tiempoRegistrado": 3.615448199999946
-      }
-    ]
-  },
-  {
-    "id": "a8da490e-797c-4453-971b-04541200412a",
-    "nombreEvento": "Sesión-162644",
-    "fechaInicio": "2025-07-05T16:26:44.801181",
-    "duracionTotal": 4.053917899999988,
-    "modoEvento": "PREDEFINED",
-    "registros": [
-      {
-        "nombreRegistro": "testeo 1",
-        "tiempoRegistrado": 0.9041936000000987
-      },
-      {
-        "nombreRegistro": "testeo 2",
-        "tiempoRegistrado": 2.0923671999998987
-      },
-      {
-        "nombreRegistro": "testeo 3",
-        "tiempoRegistrado": 2.9876338999999916
+        "name": "Lap 7",
+        "time": "00:00:03.91"
       }
     ]
   }

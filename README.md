@@ -45,10 +45,10 @@ Para ejecutar ChronoFlow en tu sistema, solo necesitas tener Python 3 instalado.
 
 ## 💻 Uso
 
-Para iniciar la aplicación, ejecuta el archivo `gui.py`:
+Para iniciar la aplicación, ejecuta el archivo `main.py`:
 
 ```sh
-python gui.py
+python main.py
 ```
 
 Una vez iniciada, la aplicación comenzará en **Modo Infinito** por defecto. Puedes cambiar el modo de operación desde el menú **Modo** en la parte superior de la ventana. El modo seleccionado se mostrará directamente en la ventana principal, debajo del cronómetro.
