@@ -1,7 +1,6 @@
 import json
 import os
 from typing import List, Dict, Any
-from datetime import datetime
 
 class StorageService:
     """Servicio para guardar y cargar sesiones de cronómetro en archivos JSON locales."""

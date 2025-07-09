@@ -1,6 +1,6 @@
 # ChronoFlow v1.1.0
 
-![ChronoFlow](https://raw.githubusercontent.com/ClaudioCeppi83/crono_project/master/assets/screenshot.png)
+![ChronoFlow](https://raw.githubusercontent.com/ClaudioCeppi83/crono_project/main/assets/screenshot.png)
 
 **ChronoFlow** es una aplicación de cronómetro de alta precisión, moderna y fácil de usar, desarrollada en Python con una interfaz gráfica creada con `tkinter`. Es ideal para medir el tiempo en cualquier tarea que requiera precisión y un registro detallado de vueltas.
 

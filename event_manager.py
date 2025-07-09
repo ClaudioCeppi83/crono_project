@@ -1,5 +1,5 @@
 from enum import Enum, auto
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 class EventMode(Enum):
     INFINITE = auto()
@@ -13,6 +13,7 @@ class EventManager:
         self.lap_names: List[str] = []
         self.max_laps: Optional[int] = None
         self.next_lap_index: int = 0
+        self.laps: List[Tuple[str, str]] = []
 
     def configure_session(self, mode: EventMode, lap_names: Optional[List[str]] = None, max_laps: Optional[int] = None):
         self.mode = mode
@@ -39,5 +40,17 @@ class EventManager:
             return self.next_lap_index < self.max_laps
         return True
 
-    def advance_lap(self):
+    def record_lap(self, lap_time: str):
+        lap_name = self.get_next_lap_name()
+        self.laps.append((lap_name, lap_time))
         self.next_lap_index += 1
+
+    def get_laps(self) -> List[Tuple[str, str]]:
+        return self.laps
+
+    def reset_laps(self):
+        self.laps = []
+        self.next_lap_index = 0
+
+    def get_mode_name(self) -> str:
+        return self.mode.name if self.mode else "INFINITE"
