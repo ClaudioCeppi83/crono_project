@@ -198,3 +198,143 @@ class StopwatchApp:
 
         self.event_manager.record_lap(lap_time_str)
         
+        lap_name, lap_time = self.event_manager.get_laps()[-1]
+        lap_info = f"{lap_name}: {lap_time}"
+        self.laps_listbox.insert(0, f"  {lap_info}")
+        self.laps_listbox.itemconfig(0, {'bg': self.CARD_COLOR, 'fg': self.FG_COLOR})
+        
+        # Comprobar si se ha alcanzado la última vuelta
+        if not self.event_manager.can_record_lap():
+            self.lap_button.config(text="Stop", command=self.toggle_start_pause)
+
+    def save_session_prompt(self):
+        session_name = simpledialog.askstring("Save Session", "Enter a name for the session (optional):", parent=self.root)
+        # Si el usuario cierra el diálogo, session_name será None. Si no escribe nada y da OK, será "".
+        if session_name is None: # El usuario canceló
+            return
+        self.save_session(session_name)
+
+    def save_session(self, session_name):
+        if not session_name: # Si está vacío o es None
+            session_name = f"Session {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+        
+        self.session_name = session_name
+        session_data = {
+            "session_id": self.session_id,
+            "session_name": self.session_name,
+            "start_time": self.session_start,
+            "end_time": datetime.now().isoformat(),
+            "mode": self.event_manager.get_mode_name(),
+            "laps": [{"name": name, "time": time} for name, time in self.event_manager.get_laps()]
+        }
+        self.storage.guardar_sesion(session_data)
+        messagebox.showinfo("Session Saved", f"Session '{session_name}' has been saved.")
+
+    def reset(self):
+        """Reinicia el cronómetro y la interfaz para una nueva sesión."""
+        self.engine.reset()
+        self.laps_listbox.delete(0, tk.END)
+        self.start_pause_button.config(text="Start", bg=self.ACCENT_COLOR, fg="#000000")
+        self.lap_button.config(text="Lap", command=self.record_lap, state=tk.DISABLED)
+        self.reset_button.config(state=tk.DISABLED)
+        self.time_label.config(text="00:00:00")
+        self.time_ms_label.config(text=".00")
+        
+        # Reiniciar la sesión para la siguiente grabación
+        self.session_id = str(uuid.uuid4())
+        self.session_start = datetime.now().isoformat()
+        self.event_manager.reset_laps()
+
+
+
+    def _ask_predefined_names(self):
+        dialog = tk.Toplevel(self.root)
+        dialog.title("Predefined Names")
+        dialog.geometry("300x400")
+        dialog.configure(bg=self.CARD_COLOR)
+
+        tk.Label(dialog, text="Enter one name per line:", bg=self.CARD_COLOR, fg=self.FG_COLOR).pack(pady=10)
+        text_widget = tk.Text(dialog, height=10, width=30, bg=self.BG_COLOR, fg=self.FG_COLOR, insertbackground=self.FG_COLOR)
+        text_widget.pack(pady=10, padx=10)
+
+        names = []
+        def on_ok():
+            nonlocal names
+            names = [name.strip() for name in text_widget.get("1.0", tk.END).splitlines() if name.strip()]
+            dialog.destroy()
+
+        tk.Button(dialog, text="OK", command=on_ok, bg=self.ACCENT_COLOR, fg="#000000").pack(pady=10)
+        self.root.wait_window(dialog)
+        return names
+
+    def update_mode_display(self):
+        mode_name = self.event_manager.get_mode_name().replace('_', ' ').title()
+        self.mode_label.config(text=f"Modo: {mode_name}")
+
+    def _format_time(self, time_float):
+        """Formatea el tiempo de segundos a HH:MM:SS.ms."""
+        total_seconds = int(time_float)
+        milliseconds = int((time_float - total_seconds) * 100)
+        minutes, seconds = divmod(total_seconds, 60)
+        hours, minutes = divmod(minutes, 60)
+        return f"{hours:02d}:{minutes:02d}:{seconds:02d}", f"{milliseconds:02d}"
+
+    def _update_timer(self):
+        """Actualiza la etiqueta del tiempo continuamente."""
+        if self.engine.is_running:
+            elapsed_time = self.engine.get_current_time()
+            time_str, ms_str = self._format_time(elapsed_time)
+            self.time_label.config(text=time_str)
+            self.time_ms_label.config(text=f".{ms_str}")
+        self.root.after(10, self._update_timer)
+
+
+
+    def show_history(self):
+        history_window = tk.Toplevel(self.root)
+        history_window.title("Historial de Sesiones")
+        history_window.geometry("600x500")
+        history_window.configure(bg=self.CARD_COLOR)
+
+        sessions = self.storage.obtener_sesiones()
+        text_area = tk.Text(history_window, bg=self.BG_COLOR, fg=self.FG_COLOR, font=("Segoe UI Variable", 12), insertbackground=self.FG_COLOR)
+        text_area.pack(expand=True, fill=tk.BOTH, padx=20, pady=20)
+
+        # Configurar etiquetas para diferentes estilos de texto
+        text_area.tag_configure("session_name", font=("Segoe UI Variable", 16, "bold"), spacing3=10)
+        text_area.tag_configure("header", font=("Segoe UI Variable", 12, "bold"), spacing1=5)
+        text_area.tag_configure("lap_time", font=("Segoe UI Variable", 12), lmargin1=30, lmargin2=30)
+        text_area.tag_configure("separator", spacing1=15, spacing3=15)
+
+        if not sessions:
+            text_area.insert(tk.END, "No hay sesiones guardadas.", "header")
+        else:
+            for session in sessions:
+                # Nombre de la sesión destacado
+                session_name = session.get('session_name', 'Sin nombre')
+                text_area.insert(tk.END, f"📌 {session_name}\n", "session_name")
+
+                # Información de la sesión
+                text_area.insert(tk.END, f"Modo: {session.get('mode', 'N/A')}\n", "header")
+                text_area.insert(tk.END, f"Inicio: {session.get('start_time')}\n")
+                text_area.insert(tk.END, f"Fin: {session.get('end_time')}\n\n")
+
+                # Tiempos de vueltas
+                text_area.insert(tk.END, "⏱️ Vueltas registradas:\n", "header")
+                laps = session.get('laps', [])
+                if laps:
+                    for i, lap in enumerate(laps, 1):
+                        if isinstance(lap, dict):
+                            lap_name = lap.get('name', f'Vuelta {i}')
+                            lap_time = lap.get('time', '00:00:00.00')
+                            text_area.insert(tk.END, f"   {lap_name}: {lap_time}\n", "lap_time")
+                        else:
+                            text_area.insert(tk.END, f"   Vuelta {i}: {lap}\n", "lap_time")
+                else:
+                    text_area.insert(tk.END, "   No se registraron vueltas\n", "lap_time")
+
+                # Separador entre sesiones
+                text_area.insert(tk.END, "\n" + "─" * 50 + "\n\n", "separator")
+
+        text_area.config(state=tk.DISABLED)
+        
