@@ -98,12 +98,3 @@ venv.bak/
 
 # mypy
 .mypy_cache/
-.dmypy.json
-dmypy.json
-
-# Pyre type checker
-.pyre/
-
-#extras
-fase1_MVP_cron_sec_app.md
-fase2_cron_sec_app.md
