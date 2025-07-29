@@ -4,7 +4,7 @@ from src.controller.app_controller import AppController
 def main():
     """Función principal para iniciar la aplicación de cronómetro."""
     root = tk.Tk()
-    app = AppController(root)
+    _ = AppController(root)
     root.mainloop()
 
 if __name__ == "__main__":
